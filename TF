@@ -1,0 +1,89 @@
+import java.util.Scanner;
+import java.util.Random;
+
+public class TF {
+
+    public static void main(String[] args) {
+        Scanner entrada = new Scanner(System.in);
+        Random rd = new Random();
+
+        int totalLinhas;
+        int totalColunas;
+
+        do {
+            System.out.print("Informe a quantidade de linhas (min. 3): ");
+            totalLinhas = entrada.nextInt();
+            System.out.print("Informe a quantidade de colunas (min. 3): ");
+            totalColunas = entrada.nextInt();
+            if (totalLinhas < 3 || totalColunas < 3 || totalLinhas * totalColunas < 4) {
+                System.out.println("Erro! A matriz deve ter no minimo 3x3 e espaco para 4 pontos. Tente novamente.");
+            }
+        } while (totalLinhas < 3 || totalColunas < 3 || totalLinhas * totalColunas < 4);
+
+        int linhaA, colA, linhaB, colB, linhaC, colC, linhaD, colD;
+
+        do {
+            linhaA = rd.nextInt(totalLinhas);
+            colA = rd.nextInt(totalColunas);
+            linhaB = rd.nextInt(totalLinhas);
+            colB = rd.nextInt(totalColunas);
+            linhaC = rd.nextInt(totalLinhas);
+            colC = rd.nextInt(totalColunas);
+            linhaD = rd.nextInt(totalLinhas);
+            colD = rd.nextInt(totalColunas);
+        } while ((linhaA == linhaB && colA == colB) || (linhaA == linhaC && colA == colC) ||
+                 (linhaA == linhaD && colA == colD) || (linhaB == linhaC && colB == colC) ||
+                 (linhaB == linhaD && colB == colD) || (linhaC == linhaD && colC == colD));
+        
+        System.out.println("\nSorteando os pontos...");
+        System.out.println("::: PontoA: L=" + linhaA + ", C=" + colA);
+        System.out.println("::: PontoB: L=" + linhaB + ", C=" + colB);
+        System.out.println("::: PontoC: L=" + linhaC + ", C=" + colC);
+        System.out.println("::: PontoD: L=" + linhaD + ", C=" + colD);
+        System.out.println("::: >>> Nenhum ponto com coordenadas repetidas! <<<\n");
+        
+        char[][] matriz = new char[totalLinhas][totalColunas];
+
+        for (int i = 0; i < totalLinhas; i++) {
+            for (int j = 0; j < totalColunas; j++) {
+                matriz[i][j] = '.';
+            }
+        }
+
+        if (colA < colB) {
+            for (int c = colA; c <= colB; c++) matriz[linhaA][c] = '+';
+        } else {
+            for (int c = colA; c >= colB; c--) matriz[linhaA][c] = '+';
+        }
+        if (linhaA < linhaB) {
+            for (int l = linhaA; l <= linhaB; l++) matriz[l][colB] = '+';
+        } else {
+            for (int l = linhaA; l >= linhaB; l--) matriz[l][colB] = '+';
+        }
+
+        if (colC < colD) {
+            for (int c = colC; c <= colD; c++) matriz[linhaC][c] = '*';
+        } else {
+            for (int c = colC; c >= colD; c--) matriz[linhaC][c] = '*';
+        }
+        if (linhaC < linhaD) {
+            for (int l = linhaC; l <= linhaD; l++) matriz[l][colD] = '*';
+        } else {
+            for (int l = linhaC; l >= linhaD; l--) matriz[l][colD] = '*';
+        }
+        
+        matriz[linhaA][colA] = 'A';
+        matriz[linhaB][colB] = 'B';
+        matriz[linhaC][colC] = 'C';
+        matriz[linhaD][colD] = 'D';
+
+        for (int i = 0; i < totalLinhas; i++) {
+            for (int j = 0; j < totalColunas; j++) {
+                System.out.print(matriz[i][j] + "  ");
+            }
+            System.out.println();
+        }
+        
+        entrada.close();
+    }
+}
